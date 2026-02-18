@@ -111,6 +111,12 @@ void setup()
 
     // Read last saved segment from EEPROM
     currentSegment = EEPROM.read(0);
+    // Validate EEPROM value (255 means uninitialized)
+    if (currentSegment > NUM_SEGMENTS)
+    {
+        currentSegment = 0;
+        EEPROM.write(0, 0);
+    }
 
     if (!lightMeter1.begin(BH1750::CONTINUOUS_HIGH_RES_MODE, 0x23))
         Serial.println(F("Error initializing BH1750 #1"));
